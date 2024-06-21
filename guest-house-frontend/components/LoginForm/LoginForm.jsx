@@ -22,7 +22,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <div className="contactContainer">
+      <form className="contactContainer">
         <div className="contactUsPage">
           <h1>Django Rest Framework </h1>
           <div className="contactContent">
@@ -51,7 +51,7 @@ export default function LoginForm() {
             </form>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 }
