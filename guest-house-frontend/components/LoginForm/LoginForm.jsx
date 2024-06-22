@@ -29,17 +29,16 @@ export default function LoginForm() {
 
     function handleRegister(e) {
         e.preventDefault();
-      api.post("/auth/user/register/", formData)
-          .then((response) => {  
-              const { data }  = response.data;
-        //   console.log("login data:", response);
-        })
-      .error((error) => {
-        console.log("Server error:", error);
-      });
-        console.log("Form data:", formData);
+        api.post("/auth/user/register/", formData)
+            .then((response) => {
+                const { data } = response;
+                console.log("Server response:", data);
+            })
+            .catch((error) => {
+                const {response} = error;
+                console.log("Error:", response);
+            });
     }
-
 
     return (
         <>
