@@ -15,15 +15,17 @@ export default function LoginForm() {
     }
 
     function handleSubmit(e) {
-        e.preventDefault();
-        // Handle form submission logic here
-        // For example, send the form data to the server
-        api.post("/auth/token/", formData).then((response) => {
-            data = response.data;
-            console.log("Server response:", response);
-            localStorage.setItem("access", data.access);
-            localStorage.setItem("refresh", data.refresh);
-        });
+        // e.preventDefault();
+        api.post("/auth/user/login/", formData)
+            .then((response) => {
+                const { data } = response;
+                // console.log("Server response:", response);
+                localStorage.setItem("access", data.access);
+                localStorage.setItem("refresh", data.refresh);
+            })
+            .catch((error) => {
+                console.log("Server Error: ", error.response.data);
+            });
         console.log("Form data:", formData);
     }
 
@@ -35,7 +37,7 @@ export default function LoginForm() {
                 console.log("Server response:", data);
             })
             .catch((error) => {
-                const {response} = error;
+                const { response } = error;
                 console.log("Error:", response);
             });
     }
