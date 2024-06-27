@@ -1,4 +1,3 @@
-// pages/contact-us.jsx
 "use client";
 import { useState } from "react";
 import "./LoginForm.css";
@@ -15,7 +14,7 @@ export default function LoginForm() {
     }
 
     function handleSubmit(e) {
-        // e.preventDefault();
+        e.preventDefault();
         api.post("/auth/user/login/", formData)
             .then((response) => {
                 const { data } = response;
@@ -25,20 +24,6 @@ export default function LoginForm() {
             })
             .catch((error) => {
                 console.log("Server Error: ", error.response.data);
-            });
-        console.log("Form data:", formData);
-    }
-
-    function handleRegister(e) {
-        e.preventDefault();
-        api.post("/auth/user/register/", formData)
-            .then((response) => {
-                const { data } = response;
-                console.log("Server response:", data);
-            })
-            .catch((error) => {
-                const { response } = error;
-                console.log("Error:", response);
             });
     }
 
@@ -69,11 +54,8 @@ export default function LoginForm() {
                                     required
                                 />
                             </div>
-                            <button type="button" onClick={handleSubmit}>
+                            <button type="submit" onClick={handleSubmit}>
                                 Log in
-                            </button>
-                            <button type="button" onClick={handleRegister}>
-                                Register
                             </button>
                         </form>
                     </div>
