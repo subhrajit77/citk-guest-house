@@ -22,9 +22,14 @@ class CreateUserView(generics.CreateAPIView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            return User.objects.all()
+        else:
+            return User.objects.filter(id=self.request.user.id)
 
 
-# Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
