@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'rooms.apps.RoomsConfig',
     'booking.apps.BookingConfig',
+    'department.apps.DepartmentConfig',
 ]
 
 MIDDLEWARE = [
@@ -162,8 +163,10 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }

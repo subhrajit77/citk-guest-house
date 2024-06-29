@@ -1,5 +1,5 @@
 from . import views
-from django.urls import path,include
+from django.urls import path, include
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -10,4 +10,3 @@ urlpatterns = [
     path("user/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("", include(views.router.urls), name="user"),
 ]
-
