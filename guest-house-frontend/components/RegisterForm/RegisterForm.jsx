@@ -17,6 +17,12 @@ export default function RegisterForm() {
         setFormData({ ...formData, [name]: value });
     }
 
+    // function handleLogout() {
+    //     localStorage.removeItem("access");
+    //     localStorage.removeItem("refresh");
+    //     window.location.reload();
+    // }
+
     function handleRegister(e) {
         e.preventDefault();
         api.post("/auth/user/register/", formData)
@@ -50,9 +56,8 @@ export default function RegisterForm() {
                             />
                         </div>
                         <div>
-                            
                             <input
-                                type="email"
+                                type="text"
                                 id="username"
                                 name="username"
                                 value={formData.username}
@@ -62,7 +67,6 @@ export default function RegisterForm() {
                             />
                         </div>
                         <div>
-                           
                             <input
                                 type="email"
                                 id="email"
@@ -74,7 +78,6 @@ export default function RegisterForm() {
                             />
                         </div>
                         <div>
-                            
                             <input
                                 type="password"
                                 id="password"
@@ -86,7 +89,6 @@ export default function RegisterForm() {
                             />
                         </div>
                         <div>
-                           
                             <input
                                 type="password"
                                 id="confirm_password"
