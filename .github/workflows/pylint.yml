@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd guest_house
-        SECRET_KEY: ${{ settings.SECRET_KEY }}
+        # SECRET_KEY: ${{ settings.SECRET_KEY }}
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         python3 manage.py makemigrations
