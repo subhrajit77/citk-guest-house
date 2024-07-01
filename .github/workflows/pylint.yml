@@ -15,9 +15,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
+      env: 
+        SECRET_KEY: ${{ settings.SECRET_KEY }}
       run: |
         cd guest_house
-        # SECRET_KEY: ${{ settings.SECRET_KEY }}
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         python3 manage.py makemigrations
