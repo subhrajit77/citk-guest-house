@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: [ "3.12"]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
@@ -19,9 +19,8 @@ jobs:
         cd guest_house
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Test all migrations
+      run: |
+        cd guest_house
         python3 manage.py makemigrations
         python3 manage.py migrate
-        pip install pylint
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py') --errors-only
