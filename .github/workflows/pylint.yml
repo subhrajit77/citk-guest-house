@@ -9,13 +9,13 @@ jobs:
       matrix:
         python-version: [ "3.12"]
     steps:
+    - shell: bash
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-    - shell: bash
       env: 
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
