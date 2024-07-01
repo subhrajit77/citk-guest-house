@@ -19,6 +19,7 @@ jobs:
         cd guest_house
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        SECRET_KEY: ${{ settings.SECRET_KEY }}
         python3 manage.py makemigrations
         python3 manage.py migrate
         pip install pylint
