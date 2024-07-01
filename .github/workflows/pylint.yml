@@ -22,6 +22,7 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
+        cd guest_house
         python3 manage.py makemigrations
         python3 manage.py migrate
         pylint $(git ls-files '*.py') --errors-only
