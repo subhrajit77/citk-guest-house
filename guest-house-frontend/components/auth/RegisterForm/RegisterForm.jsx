@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import api from "../../api";
+import api from "../../../api";
 import "./RegisterForm.css";
-
+import Cookies from "js-cookie";
 export default function RegisterForm() {
     const [formData, setFormData] = useState({
         fullname: "",
@@ -17,14 +17,22 @@ export default function RegisterForm() {
         setFormData({ ...formData, [name]: value });
     }
 
-    // function handleLogout() {
-    //     localStorage.removeItem("access");
-    //     localStorage.removeItem("refresh");
-    //     window.location.reload();
-    // }
+    function handleLogout() {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        // window.location.reload();
+        
+        const clearCookies = () => {
+            // clear cookies
+            for (let cookie in Cookies.get()) {
+                Cookies.remove(cookie);
+            }
+        }
+    }
 
     function handleRegister(e) {
         e.preventDefault();
+        handleLogout();
         api.post("/auth/user/register/", formData)
             .then((response) => {
                 const { data } = response;

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import "./LoginForm.css";
-import api from "../../api";
+import api from "../../../api";
 export default function LoginForm() {
     const [formData, setFormData] = useState({
         username: "",
