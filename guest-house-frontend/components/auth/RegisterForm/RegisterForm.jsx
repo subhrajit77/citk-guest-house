@@ -1,37 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import api from "../../../api";
 import "./RegisterForm.css";
-import Cookies from "js-cookie";
+import { registerOptions } from "./registerChecks";
 export default function RegisterForm() {
-    const [formData, setFormData] = useState({
-        fullname: "",
-        username: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-    });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+    } = useForm();
 
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    }
+    // for (let key in formData) {
+    //     formData[key] = {};
+    // }
 
-    function handleLogout() {
+    const handleLogout = () => {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         // window.location.reload();
-        
-        const clearCookies = () => {
-            // clear cookies
-            for (let cookie in Cookies.get()) {
-                Cookies.remove(cookie);
-            }
-        }
-    }
+    };
 
-    function handleRegister(e) {
-        e.preventDefault();
+    function handleRegister(formData) {
         handleLogout();
         api.post("/auth/user/register/", formData)
             .then((response) => {
@@ -44,6 +34,12 @@ export default function RegisterForm() {
             });
     }
 
+    const styles = {
+        color: "red",
+        fontSize: "14px",
+        textAlign: "right",
+    };
+
     return (
         <main className="RegisterContainer">
             <section className="RegisterPage">
@@ -51,61 +47,85 @@ export default function RegisterForm() {
                     <h1>Register</h1>
                 </header>
                 <div className="RegisterContent">
-                    <form className="RegisterForm" onSubmit={handleRegister}>
+                    <form
+                        className="RegisterForm"
+                        onSubmit={handleSubmit(handleRegister)}
+                    >
                         <div>
                             <input
                                 type="text"
-                                id="fullname"
-                                name="fullname"
-                                value={formData.fullname}
-                                onChange={handleChange}
+                                // id="fullname"
+                                {...register("fullname", {
+                                    required: "Full name is required",
+                                })}
                                 placeholder="Full name"
-                                required
                             />
+                            {errors.fullname && (
+                                <span style={styles}>
+                                    {errors.fullname.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <input
                                 type="text"
-                                id="username"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleChange}
+                                // id="username"
+                                {...register(
+                                    "username",
+                                    registerOptions.username
+                                )}
                                 placeholder="Username"
-                                required
                             />
+                            {errors.username && (
+                                <span style={styles}>
+                                    {errors.username.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <input
                                 type="email"
                                 id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
+                                {...register("email", registerOptions.email)}
                                 placeholder="Email"
-                                required
                             />
+                            {errors.email && (
+                                <span style={styles}>
+                                    {errors.email.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <input
                                 type="password"
                                 id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
+                                {...register(
+                                    "password",
+                                    registerOptions.password
+                                )}
                                 placeholder="Password"
-                                required
                             />
+                            {errors.password && (
+                                <span style={styles}>
+                                    {errors.password.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <input
                                 type="password"
                                 id="confirm_password"
-                                name="confirm_password"
-                                value={formData.confirm_password}
-                                onChange={handleChange}
+                                {...register(
+                                    "confirm_password",
+                                    registerOptions.confirm_password
+                                )}
                                 placeholder="Confirm Password"
-                                required
                             />
+                            {errors.confirm_password && (
+                                <span style={styles}>
+                                    {errors.confirm_password.message}
+                                </span>
+                            )}
                         </div>
                         <button type="submit">Register</button>
                     </form>
