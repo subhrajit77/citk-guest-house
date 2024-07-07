@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
 import os
 from django.core.management.utils import get_random_secret_key as secret_key
+from datetime import timedelta
 
 load_dotenv()
 
@@ -176,4 +177,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ]
+}
+
+# JWT settings
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(weeks=6),
 }
