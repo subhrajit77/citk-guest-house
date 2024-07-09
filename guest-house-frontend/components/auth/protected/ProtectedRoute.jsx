@@ -13,6 +13,15 @@ function ProtectedRoute({ children }) {
 
     const refreshToken = async () => {
         const refreshToken = localStorage.getItem("refresh");
+        const decoded = jwtDecode(refreshToken);    
+        const refreshExpiration = decoded.exp;
+        const now = Date.now() / 1000;
+        if (refreshExpiration < now) {
+            setIsAuthorized(false);
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+            return;
+        }
         try {
             const res = await api.post("/auth/user/refresh/", {
                 refresh: refreshToken,
