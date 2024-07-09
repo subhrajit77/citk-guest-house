@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'api.apps.ApiConfig',
     'rooms.apps.RoomsConfig',
     'booking.apps.BookingConfig',
     'department.apps.DepartmentConfig',
