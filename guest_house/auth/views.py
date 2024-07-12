@@ -23,12 +23,24 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
-    
+
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_staff:
             return User.objects.all()
         else:
             return User.objects.filter(id=self.request.user.id)
+
+
+class UserView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self, *args, **kwargs):
+        return UserSerializer(self.request.user).data
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse(UserSerializer(self.request.user).data)
 
 
 router = routers.DefaultRouter()
