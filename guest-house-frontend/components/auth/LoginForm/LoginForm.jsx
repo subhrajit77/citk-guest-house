@@ -2,6 +2,8 @@
 import "./LoginForm.css";
 import api from "../../../api";
 import { useForm } from "react-hook-form";
+import saveJWT from "../../../utils/cookies";
+
 export default function LoginForm() {
     const {
         register,
@@ -31,16 +33,16 @@ export default function LoginForm() {
     }
 
     function handleLogin(formData) {
-        // console.log("Form data:", formData);
-        api.post("/auth/user/login/", formData)
+        console.log("Form data:", formData);
+        api.get("/auth/user/login/", formData)
             .then((response) => {
                 const { data } = response;
-                // console.log("Server response:", response);
-                localStorage.setItem("access", data.access);
-                localStorage.setItem("refresh", data.refresh);
+                saveJWT("access", data.access);
+                saveJWT("refresh", data.refresh);
+                console.log("JWT saved");
             })
             .catch((error) => {
-                console.log("Server Error: ", error.response.data);
+                console.log("Server Error: ", error);
             });
     }
     const styles = {

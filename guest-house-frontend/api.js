@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const url = "http://localhost:8000"
 // for django port 8000 (can be customized, according to where the backend is running)
@@ -9,11 +10,12 @@ const api = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+    withCredentials: true,
 });
 
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("access");
+        const token = Cookies.get("access");
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -24,6 +26,5 @@ api.interceptors.request.use(
     }
 );
 
-axios.defaults.withCredentials = true;
 
 export default api;
