@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import api from "../../../api";
 import "./RegisterForm.css";
 import { registerOptions } from "./registerChecks";
+import Cookies from "js-cookie";
 export default function RegisterForm() {
     const {
         register,
@@ -11,13 +12,13 @@ export default function RegisterForm() {
         watch,
     } = useForm();
 
-    // for (let key in formData) {
-    //     formData[key] = {};
-    // }
+    for (let key in formData) {
+        formData[key] = {};
+    }
 
     const handleLogout = () => {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
+        Cookies.remove("access");
+        Cookies.remove("refresh");
         // window.location.reload();
     };
 
@@ -30,7 +31,13 @@ export default function RegisterForm() {
             })
             .catch((error) => {
                 const { response } = error;
-                console.log("Error:", response);
+                if (!response) {
+                    console.log("Network Error");
+                    return;
+                }
+                else {
+                    console.log("Server Error: ", response.data);
+                }
             });
     }
 
