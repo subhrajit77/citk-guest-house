@@ -11,11 +11,11 @@ export default function LoginForm() {
         formState: { errors },
     } = useForm();
     const registerOptions = {
-        username: {
-            required: "Username is required",
-            minLength: {
-                value: 3,
-                message: "Username must be at least 3 characters long",
+        email: {
+            required: "Email is required",
+            pattern: {
+                value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                message: "Invalid email address",
             },
         },
         password: {
@@ -34,7 +34,7 @@ export default function LoginForm() {
 
     function handleLogin(formData) {
         console.log("Form data:", formData);
-        api.post("/auth/user/token/", formData)
+        api.post("/accounts/user/token/", formData)
             .then((response) => {
                 const { data } = response;
                 saveJWT("access", data.access);
@@ -70,16 +70,17 @@ export default function LoginForm() {
                         >
                             <div>
                                 <input
+                                type="email"
                                     {...register(
-                                        "username",
-                                        registerOptions.username
+                                        "email",
+                                        registerOptions.email
                                     )}
-                                    // type="email"
                                     placeholder="Username"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                 />
-                                {errors?.username && (
+                                {errors?.email && (
                                     <div style={styles}>
-                                        {errors?.username.message}
+                                        {errors?.email.message}
                                     </div>
                                 )}
                             </div>
