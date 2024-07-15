@@ -1,6 +1,6 @@
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import UserSerializer
-from django.contrib.auth.models import User
+from .models import User
 from django.http import JsonResponse
 from rest_framework import routers, serializers, viewsets, generics
 from django.urls import path, include
