@@ -8,10 +8,10 @@ Contains all the API endpoints for the backend
 
 ### User Endpoints
 
-- `/auth/user/register/` - Register a new user
-- `/auth/user/login/` - Login a user
-- `auth/user/refresh/` - Refresh the user token
-- `auth/users` - Handle all users
+- `/accounts/user/register/` - Register a new user
+- `/accounts/user/login/` - Login a user
+- `accounts/user/refresh/` - Refresh the user token
+- `accounts/users` - Handle all users
 
 ### Room Endpoints
 

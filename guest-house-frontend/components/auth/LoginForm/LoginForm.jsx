@@ -34,15 +34,22 @@ export default function LoginForm() {
 
     function handleLogin(formData) {
         console.log("Form data:", formData);
-        api.get("/auth/user/login/", formData)
+        api.post("/auth/user/token/", formData)
             .then((response) => {
                 const { data } = response;
                 saveJWT("access", data.access);
                 saveJWT("refresh", data.refresh);
-                console.log("JWT saved");
+                console.log("User Logged in");
             })
             .catch((error) => {
-                console.log("Server Error: ", error);
+                const { response } = error;
+                if (!response) {
+                    console.log("Network Error");
+                    return;
+                }
+                else {
+                    console.log("Server Error: ", response.data);
+                }
             });
     }
     const styles = {
