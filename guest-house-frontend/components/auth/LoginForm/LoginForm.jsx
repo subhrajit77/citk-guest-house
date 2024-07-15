@@ -3,8 +3,9 @@ import "./LoginForm.css";
 import api from "../../../api";
 import { useForm } from "react-hook-form";
 import saveJWT from "../../../utils/cookies";
-
+import { useToast } from "@chakra-ui/react";
 export default function LoginForm() {
+    const toast = useToast();
     const {
         register,
         handleSubmit,
@@ -40,6 +41,13 @@ export default function LoginForm() {
                 saveJWT("access", data.access);
                 saveJWT("refresh", data.refresh);
                 console.log("User Logged in");
+                toast({
+                    title: "Success",
+                    description: "Logged in successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
             })
             .catch((error) => {
                 const { response } = error;
@@ -48,7 +56,15 @@ export default function LoginForm() {
                     return;
                 }
                 else {
-                    console.log("Server Error: ", response.data);
+                    const { status,data } = response;
+                    toast({
+                        title: "Error",
+                        description: data.detail,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                    });
+                    console.log("Server Error: ", data);
                 }
             });
     }
