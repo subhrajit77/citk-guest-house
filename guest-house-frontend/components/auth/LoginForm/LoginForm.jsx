@@ -3,19 +3,20 @@ import "./LoginForm.css";
 import api from "../../../api";
 import { useForm } from "react-hook-form";
 import saveJWT from "../../../utils/cookies";
-
+import { useToast } from "@chakra-ui/react";
 export default function LoginForm() {
+    const toast = useToast();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
     const registerOptions = {
-        username: {
-            required: "Username is required",
-            minLength: {
-                value: 3,
-                message: "Username must be at least 3 characters long",
+        email: {
+            required: "Email is required",
+            pattern: {
+                value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                message: "Invalid email address",
             },
         },
         password: {
@@ -34,12 +35,19 @@ export default function LoginForm() {
 
     function handleLogin(formData) {
         console.log("Form data:", formData);
-        api.post("/auth/user/token/", formData)
+        api.post("/accounts/user/token/", formData)
             .then((response) => {
                 const { data } = response;
                 saveJWT("access", data.access);
                 saveJWT("refresh", data.refresh);
                 console.log("User Logged in");
+                toast({
+                    title: "Success",
+                    description: "Logged in successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
             })
             .catch((error) => {
                 const { response } = error;
@@ -48,7 +56,15 @@ export default function LoginForm() {
                     return;
                 }
                 else {
-                    console.log("Server Error: ", response.data);
+                    const { status,data } = response;
+                    toast({
+                        title: "Error",
+                        description: data.detail,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                    });
+                    console.log("Server Error: ", data);
                 }
             });
     }
@@ -70,16 +86,17 @@ export default function LoginForm() {
                         >
                             <div>
                                 <input
+                                type="email"
                                     {...register(
-                                        "username",
-                                        registerOptions.username
+                                        "email",
+                                        registerOptions.email
                                     )}
-                                    // type="email"
                                     placeholder="Username"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                 />
-                                {errors?.username && (
+                                {errors?.email && (
                                     <div style={styles}>
-                                        {errors?.username.message}
+                                        {errors?.email.message}
                                     </div>
                                 )}
                             </div>

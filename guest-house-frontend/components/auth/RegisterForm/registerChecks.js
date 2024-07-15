@@ -6,13 +6,6 @@ export const registerOptions = {
             message: "Full name must be at least 3 characters long",
         },
     },
-    username: {
-        required: "Username is required",
-        minLength: {
-            value: 3,
-            message: "Username must be at least 3 characters long",
-        },
-    },
     email: {
         required: "Email is required",
         pattern: {
@@ -28,7 +21,7 @@ export const registerOptions = {
         },
     },
     confirm_password: {
-        // required: "Confirm password is required",
+        required: "Confirm password is required",
         validate: (value) => {
             return value === formData.password || "Passwords do not match";
         },

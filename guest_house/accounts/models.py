@@ -1,27 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.hashers import make_password
 
 
-class InheritedUser(User):
+class User(AbstractUser):
     designation_options = [
         ("Admin", "Admin"),
         ("User", "User"),
         ("Staff", "Staff"),
         ("HOD", "HOD")
     ]
-    # is_staff = models.BooleanField(default=False)
-    # is_active = models.BooleanField(default=True)
-    # is_superuser = models.BooleanField(default=False)
-    # email = models.EmailField(max_length=254)
+    username = models.CharField(max_length=150, null=True, blank=True)
+    email = models.EmailField(max_length=254, unique=True)
     designation = models.CharField(
         max_length=100, blank=True, null=True, choices=designation_options)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "password"]
-    objects = models.Manager()
 
     def __str__(self):
         return f"{self.name} - {self.designation}"
+
+    def save(self, *args, **kwargs):
+        if self.password:
+            self.password = make_password(self.password)
+            super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "User"

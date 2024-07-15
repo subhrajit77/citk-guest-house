@@ -12,8 +12,8 @@ export default function RegisterForm() {
         watch,
     } = useForm();
 
-    for (let key in formData) {
-        formData[key] = {};
+    for (let key in registerOptions) {
+        registerOptions[key] = {};
     }
 
     const handleLogout = () => {
@@ -24,7 +24,7 @@ export default function RegisterForm() {
 
     function handleRegister(formData) {
         handleLogout();
-        api.post("/auth/user/register/", formData)
+        api.post("/accounts/user/register/", formData)
             .then((response) => {
                 const { data } = response;
                 console.log("Server response:", data);
@@ -62,30 +62,12 @@ export default function RegisterForm() {
                             <input
                                 type="text"
                                 // id="fullname"
-                                {...register("fullname", {
-                                    required: "Full name is required",
-                                })}
+                                {...register("fullname", registerOptions.fullname)}
                                 placeholder="Full name"
                             />
                             {errors.fullname && (
                                 <span style={styles}>
                                     {errors.fullname.message}
-                                </span>
-                            )}
-                        </div>
-                        <div>
-                            <input
-                                type="text"
-                                // id="username"
-                                {...register(
-                                    "username",
-                                    registerOptions.username
-                                )}
-                                placeholder="Username"
-                            />
-                            {errors.username && (
-                                <span style={styles}>
-                                    {errors.username.message}
                                 </span>
                             )}
                         </div>
