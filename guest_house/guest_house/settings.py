@@ -125,6 +125,14 @@ DATABASES = {
 AUTH_USER_MODEL = 'accounts.User'
 
 
+# MAIL SETTINGS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # e.g., 'smtp.gmail.com'
+EMAIL_PORT = 587  # or 465 for SSL
+EMAIL_USE_TLS = True  # or EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -172,7 +180,7 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        # allow anyone to view (while in development)
+        # ! allow anyone to view (while in development)
         'rest_framework.permissions.AllowAny',
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
         # 'rest_framework.permissions.IsAuthenticated',

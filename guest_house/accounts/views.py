@@ -4,6 +4,8 @@ from .models import User
 from django.http import JsonResponse
 from rest_framework import routers, serializers, viewsets, generics
 from django.urls import path, include
+from django.core.mail import send_mail
+import guest_house.mail_utils as utils
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -15,6 +17,10 @@ class CreateUserView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             self.perform_create(serializer)
+            data = serializer.data
+            utils.send_confirmed_mail(
+                data["email"], data["first_name"])
+
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
