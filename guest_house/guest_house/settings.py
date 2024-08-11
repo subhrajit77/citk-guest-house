@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY') or secret_key()
+SECRET_KEY = os.environ.get('SECRET_KEY', secret_key())
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -195,4 +195,5 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(weeks=6),
+    'SIGNING_KEY': SECRET_KEY
 }

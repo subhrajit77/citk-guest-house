@@ -6,6 +6,9 @@ from rest_framework import routers, serializers, viewsets, generics
 from django.urls import path, include
 from django.core.mail import send_mail
 import guest_house.mail_utils as utils
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+)
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -47,6 +50,34 @@ class UserView(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         return JsonResponse(UserSerializer(self.request.user).data)
+
+
+class CreateToken(TokenObtainPairView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        from datetime import datetime, timedelta
+
+        # set cookies instead of returning json
+        response = super().post(request, *args, **kwargs)
+        response.set_cookie(
+            key="refresh",
+            value=response.data["refresh"],
+            httponly=True,
+            secure=False,
+            samesite="None",
+            max_age=timedelta(days=5),
+        )
+        response.set_cookie(
+            key="access",
+            value=response.data["access"],
+            httponly=True,
+            secure=False,
+            samesite="None",
+            max_age=timedelta(days=5),
+        )
+        response.data = {"message": "success"}
+        return response
 
 
 router = routers.DefaultRouter()

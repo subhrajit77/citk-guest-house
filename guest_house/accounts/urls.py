@@ -10,4 +10,5 @@ urlpatterns = [
     path("user/token/", TokenObtainPairView.as_view(), name="token"),
     path("user/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("", include(views.router.urls), name="user"),
+    path("user/create/", views.CreateToken.as_view(), name="create"),
 ]

@@ -4,6 +4,7 @@ import saveJWT from "../../../utils/cookies";
 import api from "../../../api";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { Spinner } from "@chakra-ui/react";
 
 function ProtectedRoute({ children }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
@@ -19,7 +20,7 @@ function ProtectedRoute({ children }) {
             return;
         }
         try {
-            const res = await api.post("/auth/user/refresh/", {
+            const res = await api.post("/accounts/user/refresh/", {
                 refresh: refresh,
             });
             if (res.status === 200) {
@@ -51,6 +52,15 @@ function ProtectedRoute({ children }) {
     };
 
     if (isAuthorized === null) {
+        return (
+            <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        );
         return <div>Loading...</div>;
     }
 

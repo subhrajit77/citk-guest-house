@@ -2,7 +2,6 @@
 import "./LoginForm.css";
 import api from "../../../api";
 import { useForm } from "react-hook-form";
-import saveJWT from "../../../utils/cookies";
 import { useToast } from "@chakra-ui/react";
 export default function LoginForm() {
     const toast = useToast();
@@ -35,11 +34,9 @@ export default function LoginForm() {
 
     function handleLogin(formData) {
         console.log("Form data:", formData);
-        api.post("/accounts/user/token/", formData)
+        api.post("/accounts/user/create/", formData)
             .then((response) => {
                 const { data } = response;
-                saveJWT("access", data.access);
-                saveJWT("refresh", data.refresh);
                 console.log("User Logged in");
                 toast({
                     title: "Success",
@@ -92,7 +89,6 @@ export default function LoginForm() {
                                         registerOptions.email
                                     )}
                                     placeholder="Username"
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                 />
                                 {errors?.email && (
                                     <div style={styles}>
