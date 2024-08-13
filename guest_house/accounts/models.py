@@ -16,10 +16,10 @@ class User(AbstractUser):
         max_length=100, blank=True, null=True, choices=designation_options)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "password"]
+    REQUIRED_FIELDS = ["username", "password", "first_name"]
 
     def __str__(self):
-        return f"{self.name} - {self.designation}"
+        return f"{self.first_name} - {self.designation}"
 
     def save(self, *args, **kwargs):
         if self.password:

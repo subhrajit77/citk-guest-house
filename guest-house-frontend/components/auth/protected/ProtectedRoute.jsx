@@ -1,9 +1,8 @@
 "use client";
-import { Navigate } from "react-router-dom";
-import saveJWT from "../../../utils/cookies";
 import api from "../../../api";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { Spinner } from "@chakra-ui/react";
 
 function ProtectedRoute({ children }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
@@ -14,16 +13,16 @@ function ProtectedRoute({ children }) {
 
     const refreshToken = async () => {
         const refresh = Cookies.get("refresh");
+
         if (!refresh) {
             setIsAuthorized(false);
             return;
         }
         try {
-            const res = await api.post("/auth/user/refresh/", {
+            const res = await api.post("/accounts/user/refresh-token/", {
                 refresh: refresh,
             });
             if (res.status === 200) {
-                saveJWT("access", res.data.access);
                 setIsAuthorized(true);
             } else {
                 console.log("Error refreshing token");
@@ -37,6 +36,9 @@ function ProtectedRoute({ children }) {
 
     const auth = async () => {
         const token = Cookies.get("access");
+        console.log("access token", token);
+        console.log("cookie", Cookies.get());
+
         if (!token) {
             const refresh = Cookies.get("refresh");
             if (refresh) {
@@ -51,6 +53,15 @@ function ProtectedRoute({ children }) {
     };
 
     if (isAuthorized === null) {
+        return (
+            <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        );
         return <div>Loading...</div>;
     }
 
