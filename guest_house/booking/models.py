@@ -1,4 +1,16 @@
 from django.db import models
+from accounts.models import User
+
+
+class Guest(models.Model):
+    guest_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=140)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=15)
+    address = models.TextField()
+    designation = models.CharField(max_length=140)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
 
 class Booking(models.Model):
@@ -26,15 +38,15 @@ class Booking(models.Model):
     status = models.CharField(
         max_length=12, choices=STATUS_CHOICES, default=status_pending
     )
+    guests = models.ManyToManyField(Guest)
+    user = serializers.ReadOnlyField(source='user.email')
     arrival_date = models.DateField()
     arrival_time = models.TimeField()
     departure_date = models.DateField()
     departure_time = models.TimeField()
     purpose_of_visit = models.TextField(default="")
 
-    # (when the booking was made)
     created = models.DateTimeField(auto_now_add=True)
-    num_guests = models.PositiveIntegerField(default=1)
     room_type = models.CharField(
         max_length=10, choices=ROOM_CHOICES, default="Single")
     payment_source = models.CharField(
