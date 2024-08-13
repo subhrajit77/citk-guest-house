@@ -39,7 +39,7 @@ class Booking(models.Model):
         max_length=12, choices=STATUS_CHOICES, default=status_pending
     )
     guests = models.ManyToManyField(Guest)
-    user = serializers.ReadOnlyField(source='user.email')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     arrival_date = models.DateField()
     arrival_time = models.TimeField()
     departure_date = models.DateField()

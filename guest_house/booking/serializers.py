@@ -1,4 +1,6 @@
+from .models import Booking, User
 from rest_framework import serializers
+
 
 from .models import Booking, Guest
 
@@ -14,12 +16,15 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ["user"]
 
     def create(self, validated_data):
-        guests_data = validated_data.pop('guests')
+        guests_data = validated_data.pop("guests")
         guests = [Guest.objects.create(**guest_data)
                   for guest_data in guests_data]
-        booking = Booking.objects.create(**validated_data)
+        user = self.context["request"].user
+        booking = Booking.objects.create(user=user, **validated_data)
         booking.guests.set(guests)
+        booking.save()
         return booking
