@@ -21,8 +21,11 @@ class BookingSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         guests_data = validated_data.pop("guests")
-        guests = [Guest.objects.create(**guest_data)
-                  for guest_data in guests_data]
+        guests = [Guest.objects.create(**guest_data) for guest_data in guests_data]
+        if len(guests) == 0:
+            raise serializers.ValidationError(
+                "Guests cannot be empty. Please provide at least one guest."
+            )
         user = self.context["request"].user
         booking = Booking.objects.create(user=user, **validated_data)
         booking.guests.set(guests)
