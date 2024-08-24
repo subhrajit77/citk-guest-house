@@ -9,9 +9,6 @@ from . import mail_utils
 # def my_callback(sender, **kwargs):
 #     print("Request finished!", sender, "--", kwargs)
 
-
-
-
 def booking_confirmed(sender, instance, created, signal, **kwargs):
     if not created:
 

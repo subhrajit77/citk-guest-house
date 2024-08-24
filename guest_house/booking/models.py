@@ -1,7 +1,6 @@
 from django.db import models
 from accounts.models import User
 
-
 class Guest(models.Model):
     guest_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=140)
@@ -10,7 +9,6 @@ class Guest(models.Model):
     address = models.TextField()
     designation = models.CharField(max_length=140)
     created = models.DateTimeField(auto_now_add=True)
-
 
 class Booking(models.Model):
     status_pending = "pending"

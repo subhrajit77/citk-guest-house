@@ -3,12 +3,10 @@ from rest_framework import serializers
 
 from .models import Booking, Guest
 
-
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guest
         fields = "__all__"
-
 
 class BookingSerializer(serializers.ModelSerializer):
     guests = GuestSerializer(many=True)
