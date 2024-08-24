@@ -7,9 +7,10 @@ from django.urls import path, include
 from django.core.mail import send_mail
 import guest_house.mail_utils as utils
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView, TokenRefreshView, TokenVerifyView
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
 )
-
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -21,12 +22,10 @@ class CreateUserView(generics.CreateAPIView):
         if serializer.is_valid():
             self.perform_create(serializer)
             data = serializer.data
-            utils.send_confirmed_mail(
-                data["email"], data["first_name"])
+            utils.send_confirmed_mail(data["email"], data["first_name"])
 
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -39,7 +38,6 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return User.objects.filter(id=self.request.user.id)
 
-
 class UserView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -50,7 +48,6 @@ class UserView(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         return JsonResponse(UserSerializer(self.request.user).data)
-
 
 class CreateToken(TokenObtainPairView):
     permission_classes = [AllowAny]
@@ -75,7 +72,6 @@ class CreateToken(TokenObtainPairView):
         response.data = {"message": "success"}
         return response
 
-
 class RefreshToken(TokenRefreshView):
     permission_classes = [AllowAny]
 
@@ -93,6 +89,5 @@ class RefreshToken(TokenRefreshView):
         response.data = {"message": "success"}
         return response
 
-
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register(r"users", UserViewSet)

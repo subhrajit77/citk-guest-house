@@ -1,16 +1,14 @@
 from django.db import models
 from accounts.models import User
 
-
 class Guest(models.Model):
     guest_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=140)
-    email = models.EmailField()
+    email = models.EmailField(null=True)
     phone_number = models.CharField(max_length=15)
     address = models.TextField()
     designation = models.CharField(max_length=140)
     created = models.DateTimeField(auto_now_add=True)
-
 
 class Booking(models.Model):
     status_pending = "pending"
@@ -26,30 +24,28 @@ class Booking(models.Model):
     PAYMENT_CHOICES = (
         ("Department", "Department"),
         ("Project", "Project"),
-        ("Self", "Self")
+        ("Self", "Self"),
     )
 
-    ROOM_CHOICES = (
-        ("Single", "Single"),
-        ("Double", "Double")
-    )
+    ROOM_CHOICES = (("Single", "Single"), ("Double", "Double"))
 
     status = models.CharField(
         max_length=12, choices=STATUS_CHOICES, default=status_pending
     )
+    booking_id = models.AutoField(primary_key=True)
     guests = models.ManyToManyField(Guest)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     arrival_date = models.DateField()
     arrival_time = models.TimeField()
     departure_date = models.DateField()
     departure_time = models.TimeField()
-    purpose_of_visit = models.TextField(default="")
+    purpose_of_visit = models.TextField(default="", null=True)
 
     created = models.DateTimeField(auto_now_add=True)
-    room_type = models.CharField(
-        max_length=10, choices=ROOM_CHOICES, default="Single")
+    room_type = models.CharField(max_length=10, choices=ROOM_CHOICES, default="Single")
     payment_source = models.CharField(
-        max_length=30, choices=PAYMENT_CHOICES, default="Self")
+        max_length=30, choices=PAYMENT_CHOICES, default="Self"
+    )
     project_no = models.CharField(max_length=255, blank=True)
 
     def __str__(self):

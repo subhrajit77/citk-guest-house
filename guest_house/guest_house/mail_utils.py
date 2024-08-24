@@ -5,15 +5,15 @@ from typing import List
 
 load_dotenv()
 
-def send_confirmed_mail(email:str, name:str="", files: List = []):
+def send_confirmed_mail(email: str, name: str = "", files: List = []):
     content = f"Your account has been created successfully {name}"
     send_mail(
         "Account Created",
         content,
         from_email=os.getenv("EMAIL_HOST_USER"),
         recipient_list=[email],
-        fail_silently=False,)
-
+        fail_silently=False,
+    )
 
 # send a mail to hod if booking payment method is by HOD approval, else send a mail to the user
 def send_booking_mail(email, name, booking_id, payment_method):

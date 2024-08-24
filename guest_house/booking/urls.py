@@ -5,8 +5,8 @@ from django.urls import path, include
 from . import views
 
 router = routers.DefaultRouter()
-router.register('', views.BookingViewSet)
+router.register("", views.BookingViewSet)
 
 urlpatterns = [
-    path('', include(router.urls), name='booking'),
+    path("", include(router.urls), name="booking"),
 ]

@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class Department(models.Model):
     dept_choices = {
         "CSE": "CSE",
@@ -13,7 +12,8 @@ class Department(models.Model):
         "MCD": "MCD",
     }
     dept_id = models.CharField(
-        primary_key=True, max_length=5, choices=dept_choices, default="CSE")
+        primary_key=True, max_length=5, choices=dept_choices, default="CSE"
+    )
     # add options like cse,mcd for dept_id
     hod = models.CharField(max_length=100)
     contact = models.CharField(max_length=10)
