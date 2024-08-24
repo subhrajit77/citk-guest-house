@@ -7,7 +7,6 @@ import Sidebar from "../../components/dashboard/sidebar/Sidebar";
 import UserProfile from "../../components/dashboard/user-profile/UserProfile";
 // import BookingDetails from "../../components/dashboard/booking-details/BookingDetails";
 import StatsCard from "../../components/dashboard/statscard/StatsCard";
-import Table from "../../components/dashboard/table/Table";
 import BookingDetails from "../../components/dashboard/booking-details/BookingDetails";
 
 const user = {
@@ -38,7 +37,6 @@ export default function Dashboard() {
                     {/* <BookingDetails bookings={bookings} /> */}
                 </Box>
             </Box>
-            <Table />
             <BookingDetails />
 
         </Box>
