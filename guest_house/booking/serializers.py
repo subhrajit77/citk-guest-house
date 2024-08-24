@@ -1,7 +1,6 @@
 from .models import Booking, User
 from rest_framework import serializers
 
-
 from .models import Booking, Guest
 
 
@@ -31,3 +30,21 @@ class BookingSerializer(serializers.ModelSerializer):
         booking.guests.set(guests)
         booking.save()
         return booking
+
+    def update(self, instance, validated_data):
+        # admin can update anything but normal user can only update time or data
+        user = self.context["request"].user
+        if user.is_staff:
+            return super().update(instance, validated_data)
+        else:
+            update_fields = [
+                "arrival_date",
+                "arrival_time",
+                "departure_date",
+                "departure_time",
+            ]
+            for field in update_fields:
+                if field in validated_data:
+                    setattr(instance, field, validated_data[field])
+            instance.save()
+            return instance
