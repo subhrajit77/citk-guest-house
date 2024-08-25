@@ -1,0 +1,59 @@
+.custom-table {
+    border: 1px solid #cbd5e0; /* Light gray-blue border */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 12px;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.custom-table th {
+    background-color: #319795; /* Teal for the header background */
+    color: #ffffff; /* White color for text */
+}
+
+.custom-table tr:hover {
+    background-color: #e6fffa; /* Light teal for row hover */
+}
+
+.status-confirmed {
+    color: #38a169; /* Green for confirmed status */
+    font-weight: bold;
+}
+
+.status-cancelled {
+    color: #e53e3e; /* Red for cancelled status */
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #dd6b20; /* Orange for pending status */
+    font-weight: bold;
+}
+
+.table-row:hover td {
+    background-color: #fefcbf; /* Light yellow for cell hover */
+    cursor: pointer;
+}
+
+.table-row td {
+    position: relative;
+}
+
+.table-row td::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    transition: width 0.3s ease;
+}
+
+.table-row:hover td::after {
+    width: 100%;
+}
