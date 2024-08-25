@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <ProtectedRoute>
       <p>Home Page</p>
-      <a href="/login">Login</a>
+      <a href="/auth/login">Login</a>
     </ProtectedRoute>
     
   );
