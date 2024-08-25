@@ -8,13 +8,6 @@ import UserProfile from "../../components/dashboard/user-profile/UserProfile";
 import StatsCard from "../../components/dashboard/statscard/StatsCard";
 import BookingDetails from "../../components/dashboard/booking-details/BookingDetails";
 
-// Dummy data for bookings
-const bookings = [
-    { id: 'B001', date: '2024-08-01', status: 'Confirmed' },
-    { id: 'B002', date: '2024-08-05', status: 'Pending' },
-    { id: 'B003', date: '2024-08-07', status: 'Cancelled' },
-];
-
 const user = {
     name: "Jessica Jones",
     email: "jessica@example.com",

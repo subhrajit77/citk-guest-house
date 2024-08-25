@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import User
 
+
 class Guest(models.Model):
     guest_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=140)
@@ -10,15 +11,16 @@ class Guest(models.Model):
     designation = models.CharField(max_length=140)
     created = models.DateTimeField(auto_now_add=True)
 
+
 class Booking(models.Model):
     status_pending = "pending"
     status_confirmed = "confirmed"
-    status_canceled = "canceled"
+    status_cancelled = "cancelled"
 
     STATUS_CHOICES = (
         (status_pending, "Pending"),
         (status_confirmed, "Confirmed"),
-        (status_canceled, "Canceled"),
+        (status_cancelled, "Cancelled"),
     )
 
     PAYMENT_CHOICES = (
