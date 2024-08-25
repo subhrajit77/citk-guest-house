@@ -1,10 +1,41 @@
-import { Box, Heading, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+"use client";
+import {
+    Box,
+    Heading,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+} from "@chakra-ui/react";
+import "./BookingDetails.css";
+import BookingRow from "./BookingRow";
+import { useState, useEffect } from "react";
+import api from "../../../api";
 
 export default function BookingDetails({ bookings = [] }) {
+    const [bookingData, updateBookings] = useState([]);
+
+    async function fetchBookings() {
+        const response = await api.get("/booking/");
+        updateBookings(response.data);
+    }
+
+    useEffect(() => {
+        fetchBookings();
+    }, []);
+
     return (
-        <Box p={4} bg="white" shadow="md" rounded="md" mt={4}>
-            <Heading as="h2" size="lg" mb={4}>Booking Details</Heading>
-            <Table variant="simple">
+        <Box p={4} bg="white" shadow="lg" rounded="lg" mt={8}>
+            <Heading as="h2" size="lg" mb={6} color="teal.500">
+                Booking Details
+            </Heading>
+            <Table
+                variant="striped"
+                colorScheme="teal"
+                className="custom-table"
+            >
                 <Thead>
                     <Tr>
                         <Th>Booking ID</Th>
@@ -13,17 +44,15 @@ export default function BookingDetails({ bookings = [] }) {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {bookings.length > 0 ? (
-                        bookings.map((booking) => (
-                            <Tr key={booking.id}>
-                                <Td>{booking.id}</Td>
-                                <Td>{booking.date}</Td>
-                                <Td>{booking.status}</Td>
-                            </Tr>
+                    {bookingData.length > 0 ? (
+                        bookingData.map((booking) => (
+                            <BookingRow key={booking.id} {...booking} />
                         ))
                     ) : (
                         <Tr>
-                            <Td colSpan={3} textAlign="center">No bookings available</Td>
+                            <Td colSpan={3} textAlign="center">
+                                No bookings available
+                            </Td>
                         </Tr>
                     )}
                 </Tbody>

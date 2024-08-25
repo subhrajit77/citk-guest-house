@@ -1,11 +1,10 @@
 "use client";
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
-import { FiActivity, FiUsers, FiShoppingCart, FiPercent } from "react-icons/fi";
+import { FiActivity } from "react-icons/fi";
 
 import Header from "../../components/dashboard/header/Header";
 import Sidebar from "../../components/dashboard/sidebar/Sidebar";
 import UserProfile from "../../components/dashboard/user-profile/UserProfile";
-// import BookingDetails from "../../components/dashboard/booking-details/BookingDetails";
 import StatsCard from "../../components/dashboard/statscard/StatsCard";
 import BookingDetails from "../../components/dashboard/booking-details/BookingDetails";
 
@@ -31,14 +30,11 @@ export default function Dashboard() {
                             changeType={"increase"}
                             icon={<FiActivity size={"3em"} />}
                         />
-                        
                     </SimpleGrid>
                     <UserProfile user={user} />
-                    {/* <BookingDetails bookings={bookings} /> */}
+                    <BookingDetails bookings={bookings} />
                 </Box>
             </Box>
-            <BookingDetails />
-
         </Box>
     );
 }
